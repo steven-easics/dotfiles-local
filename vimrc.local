@@ -1,0 +1,73 @@
+" TABS ARE 8 SPACES, NO DISCUSSION POSSIBLE
+set tabstop=8
+
+colorscheme murphy
+
+" Yes, I use hjkl only, but let's be nice for disabled people
+nunmap <Left>
+nunmap <Right>
+nunmap <Up>
+nunmap <Down>
+
+set smartcase " case sensitive if a capital is used
+set showmatch " briefly jump to matching bracket
+
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+
+augroup FileTypeC
+  autocmd FileType c setlocal cindent
+  autocmd FileType c setlocal cino=f0,{1s,N-2s,(0,>2s,n-s,^-s,e-s
+augroup end
+
+nmap <F1> :bp<CR>
+nmap <F2> :bn<CR>
+nmap <F3> :b#<CR>
+nmap <F4> :lcd %:p:h<CR>
+nmap <S-F1> :tabp<CR>
+nmap <S-F2> :tabn<CR>
+nmap <S-F4> :retab<CR>g/./s/ \+$//<CR>
+nmap <S-F5> syntax sync fromstart
+" Show highlight group of cursor position
+nmap <S-F8> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+" Run ctags
+map <C-F12> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q
+      \ --languages=c,c++,verilog,vhdl,python,ruby .<CR>
+
+" Allow visual mode to go where no text has gone before
+set virtualedit=block
+set scrolloff=2
+
+" let hjkl work in insertmode (with CTRL)
+imap <C-J> <down>
+imap <C-K> <up>
+imap <C-L> <right>
+imap <C-E> <end>
+
+" Diff both windows
+nnoremap <Leader>d2 :diffthis<cr><c-w><c-w>:diffthis<cr>
+" Remove diff
+nnoremap <Leader>r2 :diffoff!<cr>
+
+autocmd FileType cpp set suffixesadd=.h,.C,.cpp,.cc,.hh,.hpp,.c
+au BufRead,BufNewFile *.ari setlocal suffixesadd=_ent.vhd,_rtl.vhd,.vhd
+
+" Common typos
+cabbrev E e
+cabbrev W w
+cabbrev Wa wa
+cabbrev Set set
+cabbrev Qa qa
+cabbrev Wqa wqa
+cabbrev B b
+
+iabbrev 3include #include
+iabbrev unsigend unsigned
+
+set diffopt+=iwhite
+
+"Don't mark underscore in tex as error, we are using the underscore
+"package
+autocmd FileType tex hi link texOnlyMath Normal
